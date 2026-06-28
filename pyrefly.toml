@@ -1,0 +1,6 @@
+search-path = ["."]
+
+Eproject-includes = [
+    "**/*.py*",
+    "**/*.ipynb",
+]
