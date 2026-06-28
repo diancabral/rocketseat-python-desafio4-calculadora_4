@@ -1,3 +1,4 @@
+from typing import cast
 from src.errors.http_unprocessable_entity import HttpUnprocessableEntityError
 from src.drivers.interfaces.driver_handler_interface import DriverHandlerInterface
 from typing import List
@@ -19,11 +20,11 @@ class Calculator4:
         return formated_response
 
     def __validate_body(self, body: Dict) -> List[float]:
-        if "numbers" not in body:
+        numbers = cast(List[float], body.get("numbers"))
+        if not numbers or not all(isinstance(num, (int, float)) for num in numbers):
             raise HttpUnprocessableEntityError("Body mal formatado!")
 
-        input_data = body["numbers"]
-        return input_data
+        return numbers
 
     def __calculate_mean(self, numbers: List[float]) -> float:
         mean = self.__driver_handler.mean(
